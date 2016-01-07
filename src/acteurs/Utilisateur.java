@@ -1,7 +1,7 @@
 
 package acteurs;
 
-import jdbc.JDBC_Utilisateur;
+import jdbc.*;
 
 public class Utilisateur {
 	static final int TYPE_ETUDIANT = 1;
@@ -17,7 +17,11 @@ public class Utilisateur {
 	private int attr_int_type;
 
 	// jdbc_utilisateur
-	static private JDBC_Utilisateur jdbc_utilisateur = new JDBC_Utilisateur();
+	static protected JDBC_Ecole jdbc_ecole= new JDBC_Ecole();
+	static protected JDBC_Entreprise jdbc_entreprise = new JDBC_Entreprise();
+	static protected JDBC_Etudiant jdbc_etudiant = new JDBC_Etudiant();
+	static protected JDBC_Professeur jdbc_professeur = new JDBC_Professeur();
+	static protected JDBC_Utilisateur jdbc_utilisateur = new JDBC_Utilisateur();
 
 	// Construct
 	public Utilisateur(String login, String mail, String prenom, String nom, int type) {
