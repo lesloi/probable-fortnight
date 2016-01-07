@@ -5,15 +5,17 @@
  */
 package ihm;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import acteurs.Directeur;
 import acteurs.Ecole;
 import acteurs.Entreprise;
 import acteurs.Etudiant;
 import forms.Convention;
+import forms.DemandeValidation;
+import forms.ENUM_val;
 import forms.Stage;
 
 /**
@@ -36,7 +38,7 @@ public class IHM_Directeur extends javax.swing.JFrame {
         thales = new Entreprise(1,"LES CONVENTIONS","","","");
         the_stage = new Stage(1, "LES CONVENTIONS","",thales);
         school = new Ecole() ;
-        student = new Etudiant("Charnay","", 1994, "", 1 , school,"");
+        student = new Etudiant("lohin","mail","Jean","Dupont",0);
         ask = new Convention(1, the_stage, student);
         
         this.getCatalogue().add(0, ask);
@@ -44,7 +46,7 @@ public class IHM_Directeur extends javax.swing.JFrame {
         thales = new Entreprise(1,"THALES","truc","truc","truc");
         the_stage = new Stage(1, "stage information 3 mois H/F","description blablabla",thales);
         school = new Ecole() ;
-        student = new Etudiant("Charnay"," Charnay", 1994, "studies", 1 , school,"prout");
+        student = new Etudiant("lohin","mail","Jean","Dupont",0);
         ask = new Convention(2, the_stage, student);
         
         this.catalogue.add(1, ask);
@@ -52,7 +54,7 @@ public class IHM_Directeur extends javax.swing.JFrame {
         thales = new Entreprise(2,"Dassault","truc","truc","truc");
         the_stage = new Stage(2, "stage MAth 3 mois H/F","description mqrdkjvklùna^lckgq;j%GECN.²",thales);
         school = new Ecole() ;
-        student = new Etudiant("fUCK"," libido", 1994, "studies", 2 , school,"prout");
+        student = new Etudiant("lohin","mail","Jean","Dupont",0);
         ask = new Convention(3, the_stage, student);
         
         this.catalogue.add(2, ask);
@@ -88,7 +90,6 @@ public class IHM_Directeur extends javax.swing.JFrame {
         jlisteDemande = new javax.swing.JScrollPane();
         list1 = new java.awt.List();
         catalogue = new ArrayList<Convention>();
-        Director = new Directeur("dir.prenom", "dir.nom", "dir.signature");
 
         
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -258,11 +259,11 @@ public class IHM_Directeur extends javax.swing.JFrame {
     
         if( this.list1.getSelectedIndex() != 0 && !this.jTextField1.getText().isEmpty()) {
             
-            JOptionPane.showMessageDialog(null, "Demade de stage validée.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Commission de stage signée.", "Information", JOptionPane.INFORMATION_MESSAGE);
             
+            this.getCatalogue().get(this.list1.getSelectedIndex()).setEnum_approbationDirecteur(ENUM_val.Validation);
             this.getCatalogue().remove(this.list1.getSelectedIndex());
             
-            this.catalogue.get(this.list1.getSelectedIndex()).setAttr_signatureDirecteur(Director.getAttr_str_signature());
 
             this.cleanDisplay();
         }
@@ -275,7 +276,7 @@ public class IHM_Directeur extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Demade de stage refusée.", "Information", JOptionPane.INFORMATION_MESSAGE);
             
-            
+            this.getCatalogue().get(this.list1.getSelectedIndex()).setEnum_approbationDirecteur(ENUM_val.Refus);
             this.getCatalogue().remove(this.list1.getSelectedIndex());
             
             this.cleanDisplay();
@@ -370,6 +371,12 @@ public class IHM_Directeur extends javax.swing.JFrame {
     public void setCatalogue(ArrayList<Convention> catalogue) {
         this.catalogue = catalogue;
     }
+    
+    public void envoiConventionEntreprise(Convention conv){
+        //TODO
+        //conv.getObj_stage().get
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jAccepterButton;
@@ -390,6 +397,5 @@ public class IHM_Directeur extends javax.swing.JFrame {
     private javax.swing.JScrollPane jlisteDemande;
     private java.awt.List list1;
     private ArrayList<Convention> catalogue;
-    private Directeur Director;
     // End of variables declaration//GEN-END:variables
 }
