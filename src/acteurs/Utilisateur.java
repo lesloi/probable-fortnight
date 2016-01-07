@@ -25,6 +25,14 @@ public class Utilisateur {
 	static protected JDBC_Stage jdbc_stage = new JDBC_Stage();
 
 	// Construct
+	public Utilisateur(Utilisateur ut) {
+		setAttr_str_login(ut.getAttr_str_login());
+		setAttr_str_mail(ut.getAttr_str_mail());
+		setAttr_str_prenom(ut.getAttr_str_prenom());
+		setAttr_str_nom(ut.getAttr_str_nom());
+		setAttr_int_type(ut.getAttr_int_type());
+	}
+	
 	public Utilisateur(String login, String mail, String prenom, String nom, int type) {
 		setAttr_str_login(login);
 		setAttr_str_mail(mail);

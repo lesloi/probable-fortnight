@@ -13,6 +13,12 @@ public class Entreprise extends Utilisateur {
 	
 	// Construct
 
+	public Entreprise(Utilisateur ut, int numSiret, String adresse) {
+		super(ut);
+		setAttr_int_numSiret(numSiret);
+		setAttr_str_adresse(adresse);
+	}
+	
 	public Entreprise(String login, String mail, String prenom, String nom, int numSiret, String adresse) {
 		super(login, mail, prenom, nom, TYPE_ENTREPRISE);
 		setAttr_int_numSiret(numSiret);
@@ -47,7 +53,7 @@ public class Entreprise extends Utilisateur {
 	
 	public void create() {
 		super.create();
-		setAttr_int_idUt(jdbc_entreprise.insert(this));
+		jdbc_entreprise.insert(this);
 	}
 	
 	public void edit() {

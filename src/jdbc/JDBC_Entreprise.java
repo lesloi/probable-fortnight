@@ -4,14 +4,17 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import acteurs.Entreprise;
+import acteurs.Utilisateur;
 
 public class JDBC_Entreprise extends Abstract_JDBC {
 
 	static final String SQL_SELECT = "SELECT * FROM Entreprise";
-	static final String SQL_INSERT = "INSERT INTO Entreprise(login, nom, mail, adresse, signature, nbrStagesPropose) VALUES (?, ?, ?, ?, ?, ?)";
-	static final String SQL_UPDATE = "UPDATE Entreprise SET login = ?, nom = ?, mail = ?, adresse = ?, signature = ?, nbrStagesPropose = ?";
+	static final String SQL_INSERT = "INSERT INTO Entreprise(idEnt, numSiret, adresse) VALUES (?, ?, ?)";
+	static final String SQL_UPDATE = "UPDATE Entreprise SET numSiret = ?, adresse = ?";
 	static final String SQL_DELETE = "DELETE FROM Entreprise";
 
+	private static JDBC_Utilisateur jdbc_utilisateur = new JDBC_Utilisateur();
+	
 	public ArrayList<Entreprise> selectAll() {
 		ArrayList<Entreprise> arrayList = new ArrayList<Entreprise>();
 		try {
@@ -19,10 +22,8 @@ public class JDBC_Entreprise extends Abstract_JDBC {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				Entreprise ent = new Entreprise(rs.getInt("idEntr"), rs.getString("nom"), rs.getDate("start_mandat"),
-						rs.getDate("end_mandat"), rs.getString("signature"));
-				ent.setAttr_str_login(rs.getString("login"));
-				ent.setAttr_int_idDir(rs.getInt("idDir"));
+				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEnt"));
+				Entreprise ent = new Entreprise(ut, rs.getInt("numSiret"), rs.getString("adresse"));
 
 				arrayList.add(ent);
 			}
@@ -36,21 +37,19 @@ public class JDBC_Entreprise extends Abstract_JDBC {
 		return arrayList;
 	}
 
-	public Entreprise select(int idDir) {
-		Entreprise dir = null;
+	public Entreprise select(int idEnt) {
+		Entreprise ent = null;
 		try {
-			String sql = SQL_SELECT + " WHERE idDir = ?";
+			String sql = SQL_SELECT + " WHERE idEnt = ?";
 			PreparedStatement pstmt = getConnection().prepareStatement(sql);
 			
-			pstmt.setInt(1, idDir);
+			pstmt.setInt(1, idEnt);
 			
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dir = new Entreprise(rs.getString("prenom"), rs.getString("nom"), rs.getDate("start_mandat"),
-						rs.getDate("end_mandat"), rs.getString("signature"));
-				dir.setAttr_str_login(rs.getString("login"));
-				dir.setAttr_int_idDir(rs.getInt("idDir"));
+				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEnt"));
+				ent = new Entreprise(ut, rs.getInt("numSiret"), rs.getString("adresse"));
 			}
 
 			rs.close();
@@ -59,54 +58,16 @@ public class JDBC_Entreprise extends Abstract_JDBC {
 			System.err.println("SQL error : " + e.getMessage());
 		}
 
-		return dir;
+		return ent;
 	}
 
-	public int insert(Entreprise ent) {
-		int new_id = -1;
-		
+	public void insert(Entreprise ent) {
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement pstmt = getConnection().prepareStatement(SQL_INSERT);
 
-			pstmt.setString(1, ent.getAttr_str_login());
-			pstmt.setString(2, ent.getAttr_str_prenom());
-			pstmt.setString(3, ent.getAttr_str_nom());
-			pstmt.setString(4, ent.getAttr_str_signature());
-			pstmt.setDate(5, (Date) ent.getAttr_date_start_mandat());
-			pstmt.setDate(6, (Date) ent.getAttr_date_end_mandat());
-
-			if (pstmt.executeUpdate() != 0) {
-				ResultSet generatedKeys = pstmt.getGeneratedKeys();
-
-				if (generatedKeys.next()) {
-					new_id = generatedKeys.getInt(1);
-				} else {
-					throw new SQLException("Creating Entreprise failed, no ID obtained.");
-				}
-			} else {
-				throw new SQLException("Creating Entreprise failed, no rows affected.");
-			}
-
-			pstmt.close();
-		} catch (SQLException e) {
-			System.err.println("SQL error : " + e.getMessage());
-		}
-		
-		return new_id;
-	}
-
-	public void update(Entreprise ent) {
-		try {
-			String sql = SQL_UPDATE + " WHERE idDir = ?";
-			PreparedStatement pstmt = getConnection().prepareStatement(sql);
-
-			pstmt.setString(1, dir.getAttr_str_login());
-			pstmt.setString(2, dir.getAttr_str_prenom());
-			pstmt.setString(3, dir.getAttr_str_nom());
-			pstmt.setString(4, dir.getAttr_str_signature());
-			pstmt.setDate(5, (Date) dir.getAttr_date_start_mandat());
-			pstmt.setDate(6, (Date) dir.getAttr_date_end_mandat());
-			pstmt.setInt(7, dir.getAttr_int_idDir());
+			pstmt.setInt(1, ent.getAttr_int_idUt());
+			pstmt.setInt(2, ent.getAttr_int_numSiret());
+			pstmt.setString(3, ent.getAttr_str_adresse());
 
 			pstmt.executeUpdate();
 
@@ -116,16 +77,33 @@ public class JDBC_Entreprise extends Abstract_JDBC {
 		}
 	}
 
-	public void delete(Entreprise entr) {
-		delete(entr.getAttr_int_idEntr());
-	}
-	
-	public void delete(int idEntr) {
+	public void update(Entreprise ent) {
 		try {
-			String sql = SQL_DELETE + " WHERE idEntr = ?";
+			String sql = SQL_UPDATE + " WHERE idEnt = ?";
 			PreparedStatement pstmt = getConnection().prepareStatement(sql);
 
-			pstmt.setInt(1, idEntr);
+			pstmt.setInt(1, ent.getAttr_int_numSiret());
+			pstmt.setString(2, ent.getAttr_str_adresse());
+			pstmt.setInt(3, ent.getAttr_int_idUt());
+			
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			System.err.println("SQL error : " + e.getMessage());
+		}
+	}
+
+	public void delete(Entreprise entr) {
+		delete(entr.getAttr_int_idUt());
+	}
+	
+	public void delete(int idEnt) {
+		try {
+			String sql = SQL_DELETE + " WHERE idEnt = ?";
+			PreparedStatement pstmt = getConnection().prepareStatement(sql);
+
+			pstmt.setInt(1, idEnt);
 
 			pstmt.executeUpdate();
 
