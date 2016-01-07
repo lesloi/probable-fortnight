@@ -19,12 +19,6 @@ public class Entreprise extends Utilisateur {
 		setAttr_str_adresse(adresse);
 	}
 	
-	public Entreprise(String login, String mail, String prenom, String nom, int numSiret, String adresse) {
-		super(login, mail, prenom, nom, TYPE_ENTREPRISE);
-		setAttr_int_numSiret(numSiret);
-		setAttr_str_adresse(adresse);
-	}
-
 	// Get & Set
 
 	public int getAttr_int_numSiret() {
