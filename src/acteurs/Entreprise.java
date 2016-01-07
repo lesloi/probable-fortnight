@@ -3,7 +3,6 @@ package acteurs;
 import java.util.ArrayList;
 
 import forms.Stage;
-import jdbc.JDBC_Entreprise;
 import jdbc.JDBC_Stage;
 
 public class Entreprise extends Utilisateur {
@@ -47,6 +46,17 @@ public class Entreprise extends Utilisateur {
 	// JDBC
 	
 	public void create() {
-		setAttr_int_idUt(jdbc_entreprise);
+		super.create();
+		setAttr_int_idUt(jdbc_entreprise.insert(this));
+	}
+	
+	public void edit() {
+		super.edit();
+		jdbc_entreprise.update(this);
+	}
+	
+	public void remove () {
+		super.remove();
+		jdbc_entreprise.delete(this);
 	}
 }
