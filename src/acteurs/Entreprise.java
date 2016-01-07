@@ -19,6 +19,10 @@ public class Entreprise extends Utilisateur {
 		setAttr_str_adresse(adresse);
 	}
 	
+	static Entreprise get(int idEnt) {
+		return jdbc_entreprise.select(idEnt);
+	}
+	
 	// Get & Set
 
 	public int getAttr_int_numSiret() {

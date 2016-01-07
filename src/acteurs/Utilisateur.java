@@ -40,6 +40,10 @@ public class Utilisateur {
 		setAttr_str_nom(nom);
 		setAttr_int_type(type);
 	}
+	
+	static Utilisateur get(int idUt) {
+		return jdbc_utilisateur.select(idUt);
+	}
 
 	// Get & Set
 	public int getAttr_int_idUt() {

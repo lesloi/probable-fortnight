@@ -1,8 +1,6 @@
 package acteurs;
 
 
-import jdbc.JDBC_Professeur;
-
 public class Professeur extends Utilisateur {
 
 	// Attributs
@@ -11,14 +9,15 @@ public class Professeur extends Utilisateur {
 	private int attr_int_isDir;
 	private int attr_int_isCom;
 
-	// JDBC
-	private JDBC_Professeur jdbc_professeur = new JDBC_Professeur();
-
 	// Construct
 	public Professeur(String login, String mail, String prenom, String nom) {
 		super(login, mail, prenom, nom, TYPE_PROFESSEUR);
 	}
-
+	
+	static Professeur get(int idProf) {
+		return jdbc_professeur.select(idProf);
+	}
+	
 	// Get & Set
 	public String getAttr_str_matiere() {
 		return attr_str_matiere;

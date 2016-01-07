@@ -8,11 +8,16 @@ public class Etudiant extends Utilisateur {
 	private int attr_int_idEc;
 
 	// Construct
+
 	public Etudiant(Utilisateur ut, int numEtudiant, String formation, int idEc) {
 		super(ut);
 		setAttr_int_numEtudiant(numEtudiant);
 		setAttr_str_formation(formation);
 		setAttr_int_idEc(idEc);
+	}
+	
+	static Etudiant get(int idEtu) {
+		return jdbc_etudiant.select(idEtu);
 	}
 
 	// Get & Set
