@@ -1,5 +1,8 @@
 package acteurs;
 
+import jdbc.JDBC_Ecole;
+import jdbc.JDBC_Professeur;
+
 public class Ecole {
 
 	/* ATTRIBUTS */
@@ -8,14 +11,17 @@ public class Ecole {
 	private String attr_str_adresse;
 	private String attr_str_mail;
 	
-	// JDBC
+	private int attr_int_idDir;
 	
+	// JDBC
+	private static JDBC_Ecole jdbc_ecole = new JDBC_Ecole();
 
 	/* METHODES */
-	public Ecole(String name, String address, String mail) {
+	public Ecole(String name, String address, String mail, int idDir) {
 		this.setAttr_str_nom(name);
 		this.setAttr_str_adresse(address);
 		this.setAttr_str_mail(mail);
+		this.setAttr_int_idDir(idDir);
 	}
 
 	/**
@@ -76,5 +82,38 @@ public class Ecole {
 	 */
 	public void setAttr_str_mail(String attr_str_mail) {
 		this.attr_str_mail = attr_str_mail;
+	}
+
+	public int getAttr_int_idDir() {
+		return attr_int_idDir;
+	}
+
+	public void setAttr_int_idDir(int attr_int_idDir) {
+		this.attr_int_idDir = attr_int_idDir;
+	}
+	
+	// Méthodes
+	
+	public Professeur getDirecteur() {
+		return new JDBC_Professeur().select(attr_int_idDir);
+	}
+	
+	public void setDirecteur(Professeur prof) {
+		setAttr_int_idDir(prof.getAttr_int_idUt());
+		edit();
+	}
+
+	// JDBC
+	
+	public void create() {
+		setAttr_int_idEc(jdbc_ecole.insert(this));
+	}
+	
+	public void edit() {
+		jdbc_ecole.update(this);
+	}
+	
+	public void remove() {
+		jdbc_ecole.delete(this);
 	}
 }
