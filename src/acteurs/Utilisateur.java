@@ -22,6 +22,7 @@ public class Utilisateur {
 	static protected JDBC_Etudiant jdbc_etudiant = new JDBC_Etudiant();
 	static protected JDBC_Professeur jdbc_professeur = new JDBC_Professeur();
 	static protected JDBC_Utilisateur jdbc_utilisateur = new JDBC_Utilisateur();
+	static protected JDBC_Stage jdbc_stage = new JDBC_Stage();
 
 	// Construct
 	public Utilisateur(String login, String mail, String prenom, String nom, int type) {
