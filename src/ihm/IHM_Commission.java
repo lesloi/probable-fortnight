@@ -26,17 +26,16 @@ public class IHM_Commission extends javax.swing.JFrame {
     Ecole school;
     Etudiant student;
     DemandeValidation ask;
-
     /**
-     * Creates new form IHM_Commission
+     * Creates new form IHM_commission
      */
     public IHM_Commission() {
         initComponents();
-        
+
         thales = new Entreprise(1,"","","","");
         the_stage = new Stage(1, "LES STAGES","",thales);
         school = new Ecole() ;
-        student = new Etudiant(""," ", 1994, "", 1 , school,"");
+        student = new Etudiant("lohin","mail","Jean","Dupont",0);
         ask = new DemandeValidation(the_stage, student);
         
         this.getCatalogue().add(0, ask);
@@ -44,7 +43,7 @@ public class IHM_Commission extends javax.swing.JFrame {
         thales = new Entreprise(1,"THALES","truc","truc","truc");
         the_stage = new Stage(1, "stage information 3 mois H/F","description blablabla",thales);
         school = new Ecole() ;
-        student = new Etudiant("fname"," lname", 1994, "studies", 1 , school,"prout");
+        student = new Etudiant("lohin","mail","Jean","Dupont",0);
         ask = new DemandeValidation(the_stage, student);
         
         this.catalogue.add(1, ask);
@@ -52,7 +51,7 @@ public class IHM_Commission extends javax.swing.JFrame {
         thales = new Entreprise(2,"Dassault","truc","truc","truc");
         the_stage = new Stage(2, "stage MAth 3 mois H/F","description mqrdkjvklùna^lckgq;j%GECN.²",thales);
         school = new Ecole() ;
-        student = new Etudiant("fUCK"," libido", 1994, "studies", 2 , school,"prout");
+        student = new Etudiant("lohin","mail","Jean","Dupont",0);
         ask = new DemandeValidation(the_stage, student);
         
         this.catalogue.add(2, ask);
