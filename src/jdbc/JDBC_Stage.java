@@ -8,8 +8,8 @@ import forms.Stage;
 public class JDBC_Stage extends Abstract_JDBC {
 
 	static final String SQL_SELECT = "SELECT * FROM Stage";
-	static final String SQL_INSERT = "INSERT INTO Stage(intitule, description, start_stage, end_stage, idEnt) VALUES (?, ?, ?, ?, ?)";
-	static final String SQL_UPDATE = "UPDATE Stage SET intitule = ?, description = ?, start_stage = ?, end_stage = ?, idEnt = ?";
+	static final String SQL_INSERT = "INSERT INTO Stage(intitule, description, idEnt) VALUES (?, ?, ?)";
+	static final String SQL_UPDATE = "UPDATE Stage SET intitule = ?, description = ?, idEnt = ?";
 	static final String SQL_DELETE = "DELETE FROM Stage";
 
 	public ArrayList<Stage> selectAll() {
@@ -20,7 +20,7 @@ public class JDBC_Stage extends Abstract_JDBC {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				Stage stage = new Stage(rs.getString("intitule"), rs.getString("description"), rs.getDate("start_stage"), rs.getDate("end_stage"), rs.getInt("idEnt"));
+				Stage stage = new Stage(rs.getString("intitule"), rs.getString("description"), rs.getInt("idEnt"));
 				stage.setAttr_int_idSt(rs.getInt("idSt"));
 				
 				arrayList.add(stage);
@@ -46,7 +46,7 @@ public class JDBC_Stage extends Abstract_JDBC {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				stage = new Stage(rs.getString("intitule"), rs.getString("description"), rs.getDate("start_stage"), rs.getDate("end_stage"), rs.getInt("idEnt"));
+				stage = new Stage(rs.getString("intitule"), rs.getString("description"), rs.getInt("idEnt"));
 				stage.setAttr_int_idSt(rs.getInt("idSt"));
 			}
 
@@ -70,7 +70,7 @@ public class JDBC_Stage extends Abstract_JDBC {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				Stage stage = new Stage(rs.getString("intitule"), rs.getString("description"), rs.getDate("start_stage"), rs.getDate("end_stage"), rs.getInt("idEnt"));
+				Stage stage = new Stage(rs.getString("intitule"), rs.getString("description"), rs.getInt("idEnt"));
 				stage.setAttr_int_idSt(rs.getInt("idSt"));
 				
 				arrayList.add(stage);
@@ -93,9 +93,7 @@ public class JDBC_Stage extends Abstract_JDBC {
 
 			pstmt.setString(1, stage.getAttr_str_intitule());
 			pstmt.setString(2, stage.getAttr_str_description());
-			pstmt.setDate(3, (Date) stage.getAttr_date_start_stage());
-			pstmt.setDate(4, (Date) stage.getAttr_date_end_stage());
-			pstmt.setInt(5, stage.getAttr_int_idEnt());
+			pstmt.setInt(3, stage.getAttr_int_idEnt());
 
 			if (pstmt.executeUpdate() != 0) {
 				ResultSet generatedKeys = pstmt.getGeneratedKeys();
@@ -124,10 +122,8 @@ public class JDBC_Stage extends Abstract_JDBC {
 
 			pstmt.setString(1, stage.getAttr_str_intitule());
 			pstmt.setString(2, stage.getAttr_str_description());
-			pstmt.setDate(3, (Date) stage.getAttr_date_start_stage());
-			pstmt.setDate(4, (Date) stage.getAttr_date_end_stage());
-			pstmt.setInt(5, stage.getAttr_int_idEnt());
-			pstmt.setInt(6, stage.getAttr_int_idSt());
+			pstmt.setInt(3, stage.getAttr_int_idEnt());
+			pstmt.setInt(4, stage.getAttr_int_idSt());
 
 			pstmt.executeUpdate();
 
