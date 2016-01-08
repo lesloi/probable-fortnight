@@ -9,6 +9,7 @@ public class Convention {
 	private int attr_int_idConv;
 	private int attr_int_idSt;
 	private int attr_int_idEtu;
+	private boolean attr_boolean_approbationCommission;
 	private boolean attr_boolean_approbationDirecteur;
 	private boolean attr_boolean_approbationEntreprise;
 	private boolean attr_boolean_approbationEtudiant;
@@ -19,11 +20,12 @@ public class Convention {
 	// Construct
 
 	public Convention(int attr_int_idSt, int attr_int_idEtu,
-			boolean attr_boolean_approbationDirecteur, boolean attr_boolean_approbationEntreprise,
+			boolean attr_boolean_approbationCommission, boolean attr_boolean_approbationDirecteur, boolean attr_boolean_approbationEntreprise,
 			boolean attr_boolean_approbationEtudiant) {
 		super();
 		setAttr_int_idSt(attr_int_idSt);
 		setAttr_int_idEtu(attr_int_idEtu);
+		setAttr_boolean_approbationCommission(attr_boolean_approbationCommission);
 		setAttr_boolean_approbationDirecteur(attr_boolean_approbationDirecteur);
 		setAttr_boolean_approbationEntreprise(attr_boolean_approbationEntreprise);
 		setAttr_boolean_approbationEtudiant(attr_boolean_approbationEtudiant);
@@ -57,6 +59,14 @@ public class Convention {
 
 	public void setAttr_int_idEtu(int attr_int_idEtu) {
 		this.attr_int_idEtu = attr_int_idEtu;
+	}
+
+	public boolean isAttr_boolean_approbationCommission() {
+		return attr_boolean_approbationCommission;
+	}
+
+	public void setAttr_boolean_approbationCommission(boolean attr_boolean_approbationCommission) {
+		this.attr_boolean_approbationCommission = attr_boolean_approbationCommission;
 	}
 
 	public boolean getAttr_boolean_approbationDirecteur() {
