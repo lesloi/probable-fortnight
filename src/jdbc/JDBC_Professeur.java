@@ -3,15 +3,18 @@ package jdbc;
 import java.sql.*;
 import java.util.ArrayList;
 
-import acteurs.Professeur;;
+import acteurs.Professeur;
+import acteurs.Utilisateur;;
 
 public class JDBC_Professeur extends Abstract_JDBC {
 
 	static final String SQL_SELECT = "SELECT * FROM Professeur";
-	static final String SQL_INSERT = "INSERT INTO Professeur(login, mail, prenom, nom, type) VALUES (?, ?, ?, ?, ?)";
-	static final String SQL_UPDATE = "UPDATE Professeur SET login = ?, mail = ?, prenom = ?, nom = ?, type = ?";
+	static final String SQL_INSERT = "INSERT INTO Professeur(idProf, matiere, idEc, isCom) VALUES (?, ?, ?, ?)";
+	static final String SQL_UPDATE = "UPDATE Professeur SET matiere = ?, idEc = ?, isCom = ?";
 	static final String SQL_DELETE = "DELETE FROM Professeur";
 
+	private static JDBC_Utilisateur jdbc_utilisateur = new JDBC_Utilisateur();
+	
 	public ArrayList<Professeur> selectAll() {
 		ArrayList<Professeur> arrayList = new ArrayList<Professeur>();
 		try {
@@ -20,10 +23,10 @@ public class JDBC_Professeur extends Abstract_JDBC {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				Professeur ut = new Professeur(rs.getString("login"), rs.getString("mail"), rs.getString("prenom"), rs.getString("nom"), rs.getInt("type"));
-				ut.setAttr_int_idUt(rs.getInt("idUt"));
+				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
+				Professeur prof = new Professeur(ut, rs.getString("matiere"), rs.getInt("idEc"), rs.getInt("isCom"));
 				
-				arrayList.add(ut);
+				arrayList.add(prof);
 			}
 
 			rs.close();
@@ -35,19 +38,19 @@ public class JDBC_Professeur extends Abstract_JDBC {
 		return arrayList;
 	}
 	
-	public Professeur select(int idUt) {
-		Professeur ut = null;
+	public Professeur select(int idProf) {
+		Professeur prof = null;
 		try {
-			String sql = SQL_SELECT + " WHERE idUt = ?";
+			String sql = SQL_SELECT + " WHERE idProf = ?";
 			PreparedStatement pstmt = getConnection().prepareStatement(sql);
 
-			pstmt.setInt(1, idUt);
+			pstmt.setInt(1, idProf);
 
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				ut = new Professeur(rs.getString("login"), rs.getString("mail"), rs.getString("prenom"), rs.getString("nom"), rs.getInt("type"));
-				ut.setAttr_int_idUt(rs.getInt("idUt"));
+				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
+				prof = new Professeur(ut, rs.getString("matiere"), rs.getInt("idEc"), rs.getInt("isCom"));
 			}
 
 			rs.close();
@@ -56,52 +59,18 @@ public class JDBC_Professeur extends Abstract_JDBC {
 			System.err.println("SQL error : " + e.getMessage());
 		}
 
-		return ut;
+		return prof;
 	}
 
-	public int insert(Professeur ut) {
-		int new_id = -1;
-
+	public void insert(Professeur prof) {
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement pstmt = getConnection().prepareStatement(SQL_INSERT);
 
-			pstmt.setString(1, ut.getAttr_str_login());
-			pstmt.setString(2, ut.getAttr_str_mail());
-			pstmt.setString(3, ut.getAttr_str_prenom());
-			pstmt.setString(4, ut.getAttr_str_nom());
-			pstmt.setInt(5, ut.getAttr_int_type());
-
-			if (pstmt.executeUpdate() != 0) {
-				ResultSet generatedKeys = pstmt.getGeneratedKeys();
-
-				if (generatedKeys.next()) {
-					new_id = generatedKeys.getInt(1);
-				} else {
-					throw new SQLException("Creating Professeur failed, no ID obtained.");
-				}
-			} else {
-				throw new SQLException("Creating Professeur failed, no rows affected.");
-			}
-
-			pstmt.close();
-		} catch (SQLException e) {
-			System.err.println("SQL error : " + e.getMessage());
-		}
-
-		return new_id;
-	}
-
-	public void update(Professeur ut) {
-		try {
-			String sql = SQL_UPDATE + " WHERE idUt = ?";
-			PreparedStatement pstmt = getConnection().prepareStatement(sql);
-
-			pstmt.setString(1, ut.getAttr_str_login());
-			pstmt.setString(2, ut.getAttr_str_mail());
-			pstmt.setString(3, ut.getAttr_str_prenom());
-			pstmt.setString(4, ut.getAttr_str_nom());
-			pstmt.setInt(5, ut.getAttr_int_type());
-			pstmt.setInt(6, ut.getAttr_int_idUt());
+			pstmt.setString(1, prof.getAttr_str_login());
+			pstmt.setString(2, prof.getAttr_str_mail());
+			pstmt.setString(3, prof.getAttr_str_prenom());
+			pstmt.setString(4, prof.getAttr_str_nom());
+			pstmt.setInt(5, prof.getAttr_int_type());
 
 			pstmt.executeUpdate();
 
@@ -111,16 +80,34 @@ public class JDBC_Professeur extends Abstract_JDBC {
 		}
 	}
 
-	public void delete(Professeur ut) {
-		delete(ut.getAttr_int_idUt());
-	}
-	
-	public void delete(int idUt) {
+	public void update(Professeur prof) {
 		try {
-			String sql = SQL_DELETE + " WHERE idUt = ?";
+			String sql = SQL_UPDATE + " WHERE idProf = ?";
 			PreparedStatement pstmt = getConnection().prepareStatement(sql);
 
-			pstmt.setInt(1, idUt);
+			pstmt.setString(1, prof.getAttr_str_matiere());
+			pstmt.setInt(2, prof.getAttr_int_idEc());
+			pstmt.setInt(3, prof.getAttr_int_isCom());
+			pstmt.setInt(4, prof.getAttr_int_idUt());
+
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			System.err.println("SQL error : " + e.getMessage());
+		}
+	}
+
+	public void delete(Professeur prof) {
+		delete(prof.getAttr_int_idUt());
+	}
+	
+	public void delete(int idProf) {
+		try {
+			String sql = SQL_DELETE + " WHERE idProf = ?";
+			PreparedStatement pstmt = getConnection().prepareStatement(sql);
+
+			pstmt.setInt(1, idProf);
 
 			pstmt.executeUpdate();
 
