@@ -23,7 +23,7 @@ public class JDBC_Professeur extends Abstract_JDBC {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
+				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idProf"));
 				Professeur prof = new Professeur(ut, rs.getString("matiere"), rs.getInt("idEc"), rs.getInt("isCom"));
 				prof.setAttr_int_idUt(ut.getAttr_int_idUt());
 				
@@ -50,7 +50,7 @@ public class JDBC_Professeur extends Abstract_JDBC {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
+				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idProf"));
 				prof = new Professeur(ut, rs.getString("matiere"), rs.getInt("idEc"), rs.getInt("isCom"));
 				prof.setAttr_int_idUt(ut.getAttr_int_idUt());
 			}

@@ -10,7 +10,7 @@ abstract class Abstract_JDBC {
 
 	// Database authentification
 	static final String USER = "root";
-	static final String PASS = "";
+	static final String PASS = "skrull";
 
 	// Object connection to the database
 	static private Connection conn = null;

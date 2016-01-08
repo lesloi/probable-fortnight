@@ -34,32 +34,6 @@ public class IHM_Directeur extends javax.swing.JFrame {
      */
     public IHM_Directeur() {
         initComponents();
-
-        thales = new Entreprise(1,"LES CONVENTIONS","","","");
-        the_stage = new Stage(1, "LES CONVENTIONS","",thales);
-        school = new Ecole() ;
-        student = new Etudiant("lohin","mail","Jean","Dupont",0);
-        ask = new Convention(1, the_stage, student);
-        
-        this.getCatalogue().add(0, ask);
-
-        thales = new Entreprise(1,"THALES","truc","truc","truc");
-        the_stage = new Stage(1, "stage information 3 mois H/F","description blablabla",thales);
-        school = new Ecole() ;
-        student = new Etudiant("lohin","mail","Jean","Dupont",0);
-        ask = new Convention(2, the_stage, student);
-        
-        this.catalogue.add(1, ask);
-        
-        thales = new Entreprise(2,"Dassault","truc","truc","truc");
-        the_stage = new Stage(2, "stage MAth 3 mois H/F","description mqrdkjvklùna^lckgq;j%GECN.²",thales);
-        school = new Ecole() ;
-        student = new Etudiant("lohin","mail","Jean","Dupont",0);
-        ask = new Convention(3, the_stage, student);
-        
-        this.catalogue.add(2, ask);
-        
-        
         this.actualiserListe();
     }
 
@@ -261,7 +235,6 @@ public class IHM_Directeur extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Commission de stage signée.", "Information", JOptionPane.INFORMATION_MESSAGE);
             
-            this.getCatalogue().get(this.list1.getSelectedIndex()).setEnum_approbationDirecteur(ENUM_val.Validation);
             this.getCatalogue().remove(this.list1.getSelectedIndex());
             
 
@@ -276,7 +249,6 @@ public class IHM_Directeur extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Demade de stage refusée.", "Information", JOptionPane.INFORMATION_MESSAGE);
             
-            this.getCatalogue().get(this.list1.getSelectedIndex()).setEnum_approbationDirecteur(ENUM_val.Refus);
             this.getCatalogue().remove(this.list1.getSelectedIndex());
             
             this.cleanDisplay();
@@ -293,9 +265,9 @@ public class IHM_Directeur extends javax.swing.JFrame {
         //Intitule:
         this.jTextField2.setText(this.catalogue.get(index).getObj_stage().getAttr_str_intitule());
         //Entreprise
-        this.jTextField3.setText(this.catalogue.get(index).getObj_stage().getAttr_str_nomEntreprise());
+        this.jTextField3.setText(this.catalogue.get(index).getObj_stage().getEntreprise().getAttr_str_nom());
         //Description
-        this.jDescriptionArea.setText(this.catalogue.get(index).getObj_stage().getAttr_str_descOS());
+        this.jDescriptionArea.setText(this.catalogue.get(index).getObj_stage().getAttr_str_description());
     }
     
     private void actualiserListe(){
@@ -303,7 +275,7 @@ public class IHM_Directeur extends javax.swing.JFrame {
         list1.add("LES CONVENTIONS");
         for(int i=1; i< this.catalogue.size(); i++)
         {
-            list1.add(catalogue.get(i).getObj_stage().getAttr_str_nomEntreprise()+"->"+catalogue.get(i).getObj_etudiant().getAttr_str_nom());
+            list1.add(catalogue.get(i).getObj_stage().getEntreprise().getAttr_str_nom()+"->"+catalogue.get(i).getObj_etudiant().getAttr_str_nom());
         }
 
         this.list1.select(0);

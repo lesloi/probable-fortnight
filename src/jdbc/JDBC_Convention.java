@@ -8,7 +8,7 @@ import forms.Convention;
 public class JDBC_Convention extends Abstract_JDBC {
 
 	static final String SQL_SELECT = "SELECT * FROM Convention";
-	static final String SQL_INSERT = "INSERT INTO Convention(idSt, idEtu, approbationCommission, approbationDirecteur, approbationEntreprise, approbationEtudiant) VALUES (?, ?, ?, ?, ?)";
+	static final String SQL_INSERT = "INSERT INTO Convention(idSt, idEtu, approbationCommission, approbationDirecteur, approbationEntreprise, approbationEtudiant) VALUES (?, ?, ?, ?, ?, ?)";
 	static final String SQL_UPDATE = "UPDATE Convention SET idSt = ?, idEtu = ?, approbationCommission = ?, approbationDirecteur = ?, approbationEntreprise = ?, approbationEtudiant = ?";
 	static final String SQL_DELETE = "DELETE FROM Convention";
 
@@ -21,7 +21,7 @@ public class JDBC_Convention extends Abstract_JDBC {
 
 			while (rs.next()) {
 				Convention convention = new Convention(rs.getInt("idSt"), rs.getInt("idEtu"), rs.getBoolean("approbationCommission"), rs.getBoolean("approbationDirecteur"), rs.getBoolean("approbationEntreprise"), rs.getBoolean("approbationEtudiant"));
-				convention.setAttr_int_idSt(rs.getInt("idConv"));
+				convention.setAttr_int_idConv(rs.getInt("idConv"));
 				
 				arrayList.add(convention);
 			}
@@ -47,7 +47,7 @@ public class JDBC_Convention extends Abstract_JDBC {
 
 			if (rs.next()) {
 				convention = new Convention(rs.getInt("idSt"), rs.getInt("idEtu"), rs.getBoolean("approbationCommission"), rs.getBoolean("approbationDirecteur"), rs.getBoolean("approbationEntreprise"), rs.getBoolean("approbationEtudiant"));
-				convention.setAttr_int_idSt(rs.getInt("idConv"));
+				convention.setAttr_int_idConv(rs.getInt("idConv"));
 			}
 
 			rs.close();
@@ -71,7 +71,7 @@ public class JDBC_Convention extends Abstract_JDBC {
 
 			while (rs.next()) {
 				Convention convention = new Convention(rs.getInt("idSt"), rs.getInt("idEtu"), rs.getBoolean("approbationCommission"), rs.getBoolean("approbationDirecteur"), rs.getBoolean("approbationEntreprise"), rs.getBoolean("approbationEtudiant"));
-				convention.setAttr_int_idSt(rs.getInt("idConv"));
+				convention.setAttr_int_idConv(rs.getInt("idConv"));
 				
 				arrayList.add(convention);
 			}
@@ -97,7 +97,7 @@ public class JDBC_Convention extends Abstract_JDBC {
 
 			while (rs.next()) {
 				Convention convention = new Convention(rs.getInt("idSt"), rs.getInt("idEtu"), rs.getBoolean("approbationCommission"), rs.getBoolean("approbationDirecteur"), rs.getBoolean("approbationEntreprise"), rs.getBoolean("approbationEtudiant"));
-				convention.setAttr_int_idSt(rs.getInt("idConv"));
+				convention.setAttr_int_idConv(rs.getInt("idConv"));
 				
 				arrayList.add(convention);
 			}
@@ -119,9 +119,10 @@ public class JDBC_Convention extends Abstract_JDBC {
 
 			pstmt.setInt(1, convention.getAttr_int_idSt());
 			pstmt.setInt(2, convention.getAttr_int_idEtu());
-			pstmt.setBoolean(3, convention.getAttr_boolean_approbationDirecteur());
-			pstmt.setBoolean(4, convention.getAttr_boolean_approbationEntreprise());
-			pstmt.setBoolean(5, convention.getAttr_boolean_approbationEtudiant());
+			pstmt.setBoolean(3, convention.getAttr_boolean_approbationCommission());
+			pstmt.setBoolean(4, convention.getAttr_boolean_approbationDirecteur());
+			pstmt.setBoolean(5, convention.getAttr_boolean_approbationEntreprise());
+			pstmt.setBoolean(6, convention.getAttr_boolean_approbationEtudiant());
 
 			if (pstmt.executeUpdate() != 0) {
 				ResultSet generatedKeys = pstmt.getGeneratedKeys();

@@ -6,6 +6,7 @@
 package ihm;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -13,6 +14,8 @@ import acteurs.Entreprise;
 import acteurs.Etudiant;
 import forms.Convention;
 import forms.Stage;
+import jdbc.JDBC_Entreprise;
+import jdbc.JDBC_Stage;
 import forms.ENUM_val;
 
 /**
@@ -25,15 +28,9 @@ public class IHM_Entreprise extends javax.swing.JFrame {
      * Creates new form IHM_Entreprise
      */
     public IHM_Entreprise() {
-        this.setObj_entreprise(new Entreprise());
+        this.setObj_entreprise(new JDBC_Entreprise().select(1));
         initComponents();
 
-        this.tabConv.add(new Convention(0, new Stage(0, "LES CONVENTIONS", "",
-                this.obj_entreprise), new Etudiant("lohin","mail","Jean","Dupont",0)));
-        this.tabConv.add(new Convention(1, new Stage(1, "informatique",
-                "Mise au point d'une Base de donnée.\ntest saut de ligne",
-                this.obj_entreprise), new Etudiant("login","mail","Jacques","Dupont",1)));
-        this.actualiserListeConv();
     }
 
     /**
@@ -504,7 +501,7 @@ public class IHM_Entreprise extends javax.swing.JFrame {
         jEffacerIntitule.setEnabled(false);
         jEffacerDescription.setEnabled(false);
 
-        this.setTitle(obj_entreprise.getAttr_str_nom());
+        
 
         jEffacer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -519,7 +516,7 @@ public class IHM_Entreprise extends javax.swing.JFrame {
         });
 
         tabOffre = new ArrayList<Stage>();
-        tabOffre.add(0, new Stage(0, "LES STAGES", "", new Entreprise()));
+        tabOffre.add(0, new JDBC_Stage().select(0));
 
         listeStage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -543,9 +540,21 @@ public class IHM_Entreprise extends javax.swing.JFrame {
             }
         });
 
+        this.setObj_entreprise(new JDBC_Entreprise().select(1));
+        
+        this.setTitle(obj_entreprise.getAttr_str_nom());
+        
+        this.remplirTabOffre();
+        this.actualiserListeStage();
+        
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void remplirTabOffre(){
+        this.setTabOffre(this.obj_entreprise.getStages());
+    }
 
+    
     private void jSupprimerActionPerformed(java.awt.event.ActionEvent evt) {
 
         if (this.listeStage.getSelectedIndex() != 0
@@ -554,6 +563,8 @@ public class IHM_Entreprise extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Offre de stage supprimée.",
                     "Information", JOptionPane.INFORMATION_MESSAGE);
 
+            
+            this.tabOffre.get(this.listeStage.getSelectedIndex()).remove();
             this.tabOffre.remove(this.listeStage.getSelectedIndex());
 
             this.jNomEtu.setText("");
@@ -561,6 +572,7 @@ public class IHM_Entreprise extends javax.swing.JFrame {
             this.jEffacerIntitule.setText("");
             this.jEffacerDescription.setText("");
 
+            
             this.actualiserListeStage();
         }
     }
@@ -613,10 +625,12 @@ public class IHM_Entreprise extends javax.swing.JFrame {
 
     private void jEnvoyerActionPerformed(java.awt.event.ActionEvent evt) {
 
+        Stage sta = new Stage(this.jAjoutIntitule.getText(),this.jAjoutDescription.getText(),1);
         int s = this.tabOffre.size();
-        this.tabOffre.add(new Stage(s, this.jAjoutIntitule.getText(),
-                this.jAjoutDescription.getText(), new Entreprise()));
+        this.tabOffre.add(s, sta);
 
+        sta.create();
+        
         this.jAjoutIntitule.setText("");
         this.jAjoutDescription.setText("");
 
@@ -634,7 +648,7 @@ public class IHM_Entreprise extends javax.swing.JFrame {
                     .get(listeConvention.getSelectedIndex()).getObj_etudiant()
                     .getAttr_str_nom());
             this.jIntituleConv.setText(this.tabConv.get(this.listeConvention.getSelectedIndex()).getObj_stage().getAttr_str_intitule());
-            this.jDescConv.setText(this.tabConv.get(this.listeConvention.getSelectedIndex()).getObj_stage().getAttr_str_descOS());
+            this.jDescConv.setText(this.tabConv.get(this.listeConvention.getSelectedIndex()).getObj_stage().getAttr_str_description());
         }
 
 
@@ -643,8 +657,7 @@ public class IHM_Entreprise extends javax.swing.JFrame {
     private void actualiserListeConv() {
         listeConvention.removeAll();
         for (int i = 0; i < this.tabConv.size(); i++) {
-            listeConvention.add(tabConv.get(i).getObj_stage()
-                    .getAttr_str_intitule());
+            listeConvention.add("Convention " + tabConv.get(i).getObj_etudiant().getAttr_str_prenom().charAt(0) + "." +tabConv.get(i).getObj_etudiant().getAttr_str_nom());
         }
 
         this.listeConvention.select(0);
@@ -703,7 +716,7 @@ public class IHM_Entreprise extends javax.swing.JFrame {
                 .getAttr_str_intitule());
         // Description:
         this.jEffacerDescription.setText(this.tabOffre.get(index)
-                .getAttr_str_descOS());
+                .getAttr_str_description());
 
     }
 

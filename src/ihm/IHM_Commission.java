@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import acteurs.Ecole;
 import acteurs.Entreprise;
 import acteurs.Etudiant;
+import acteurs.Professeur;
+import forms.Convention;
 import forms.DemandeValidation;
 import forms.Stage;
 
@@ -21,41 +23,13 @@ import forms.Stage;
  */
 public class IHM_Commission extends javax.swing.JFrame {
 
-    Entreprise thales;
-    Stage the_stage;
-    Ecole school;
-    Etudiant student;
-    DemandeValidation ask;
+   
     /**
      * Creates new form IHM_commission
      */
     public IHM_Commission() {
         initComponents();
 
-        thales = new Entreprise(1,"","","","");
-        the_stage = new Stage(1, "LES STAGES","",thales);
-        school = new Ecole() ;
-        student = new Etudiant("lohin","mail","Jean","Dupont",0);
-        ask = new DemandeValidation(the_stage, student);
-        
-        this.getCatalogue().add(0, ask);
-        
-        thales = new Entreprise(1,"THALES","truc","truc","truc");
-        the_stage = new Stage(1, "stage information 3 mois H/F","description blablabla",thales);
-        school = new Ecole() ;
-        student = new Etudiant("lohin","mail","Jean","Dupont",0);
-        ask = new DemandeValidation(the_stage, student);
-        
-        this.catalogue.add(1, ask);
-        
-        thales = new Entreprise(2,"Dassault","truc","truc","truc");
-        the_stage = new Stage(2, "stage MAth 3 mois H/F","description mqrdkjvklùna^lckgq;j%GECN.²",thales);
-        school = new Ecole() ;
-        student = new Etudiant("lohin","mail","Jean","Dupont",0);
-        ask = new DemandeValidation(the_stage, student);
-        
-        this.catalogue.add(2, ask);
-        
         this.actualiserListe();
     }
 
@@ -85,8 +59,9 @@ public class IHM_Commission extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jlisteDemande = new javax.swing.JScrollPane();
         list1 = new java.awt.List();
-        catalogue = new ArrayList<DemandeValidation>();
+        catalogue = new ArrayList<Convention>();
 
+        objet_prof = Professeur.get(6);
         
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -248,14 +223,29 @@ public class IHM_Commission extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        remplirCatalogueValidation();
+        
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void remplirCatalogueValidation(){
+        
+        this.setCatalogue(objet_prof.getEcole().getConventions());
+        
+        this.list1.removeAll();
+       for(int i = 0; i< catalogue.size(); i++){
+           this.list1.add(catalogue.get(i).getStage().getAttr_str_intitule());
+       }
+        
+    }
+    
     private void jAcceptActionPerformed(java.awt.event.ActionEvent evt) {
     
-        if( this.list1.getSelectedIndex() != 0 && !this.jTextField1.getText().isEmpty()) {
+        if( !this.jTextField1.getText().isEmpty()) {
             
             JOptionPane.showMessageDialog(null, "Demade de stage validée.", "Information", JOptionPane.INFORMATION_MESSAGE);
+            
+            //this.
             
             this.getCatalogue().remove(this.list1.getSelectedIndex());
             this.cleanDisplay();
@@ -283,13 +273,13 @@ public class IHM_Commission extends javax.swing.JFrame {
         if(this.list1.getSelectedIndex() != 0){
             int index = this.list1.getSelectedIndex();
             //Etudiant:
-            this.jTextField1.setText(this.catalogue.get(index).getObj_etudiant().getAttr_str_nom()+" "+this.catalogue.get(index).getObj_etudiant().getAttr_str_prenom());
+            this.jTextField1.setText(this.catalogue.get(index).getEtudiant().getAttr_str_nom()+" "+this.catalogue.get(index).getEtudiant().getAttr_str_prenom());
             //Intitule:
-            this.jTextField2.setText(this.catalogue.get(index).getObj_stage().getAttr_str_intitule());
+            this.jTextField2.setText(this.catalogue.get(index).getStage().getAttr_str_intitule());
             //Entreprise
-            this.jTextField3.setText(this.catalogue.get(index).getObj_stage().getAttr_str_nomEntreprise());
+            this.jTextField3.setText(this.catalogue.get(index).getStage().getEntreprise().getAttr_str_nom());
             //Description
-            this.jDescriptionArea.setText(this.catalogue.get(index).getObj_stage().getAttr_str_descOS());
+            this.jDescriptionArea.setText(this.catalogue.get(index).getStage().getAttr_str_description());
         }
     }
     
@@ -298,7 +288,7 @@ public class IHM_Commission extends javax.swing.JFrame {
         
         for(int i=0; i< this.catalogue.size(); i++)
         {
-            list1.add(catalogue.get(i).getObj_stage().getAttr_str_intitule());
+            list1.add(catalogue.get(i).getStage().getAttr_str_intitule());
         }
 
         this.list1.select(0);
@@ -356,14 +346,14 @@ public class IHM_Commission extends javax.swing.JFrame {
     /**
      * @return the catalogue
      */
-    public ArrayList<DemandeValidation> getCatalogue() {
+    public ArrayList<Convention> getCatalogue() {
         return catalogue;
     }
     
     /**
      * @param catalogue the catalogue to set
      */
-    public void setCatalogue(ArrayList<DemandeValidation> catalogue) {
+    public void setCatalogue(ArrayList<Convention> catalogue) {
         this.catalogue = catalogue;
     }
 
@@ -385,6 +375,7 @@ public class IHM_Commission extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JScrollPane jlisteDemande;
     private java.awt.List list1;
-    private ArrayList<DemandeValidation> catalogue;
+    private ArrayList<Convention> catalogue;
+    private Professeur objet_prof;
     // End of variables declaration//GEN-END:variables
 }

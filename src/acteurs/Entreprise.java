@@ -45,6 +45,7 @@ public class Entreprise extends Utilisateur {
 	/* METHODES */
 
 	public ArrayList<Stage> getStages() {
+	   // System.out.println(getAttr_int_idUt());
 		return new JDBC_Stage().selectByIdEnt(getAttr_int_idUt());
 	}
 

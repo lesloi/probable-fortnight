@@ -61,7 +61,7 @@ public class Convention {
 		this.attr_int_idEtu = attr_int_idEtu;
 	}
 
-	public boolean isAttr_boolean_approbationCommission() {
+	public boolean getAttr_boolean_approbationCommission() {
 		return attr_boolean_approbationCommission;
 	}
 
@@ -93,7 +93,7 @@ public class Convention {
 		this.attr_boolean_approbationEtudiant = attr_boolean_approbationEtudiant;
 	}
 	
-	// Méthode
+	// Mï¿½thode
 	
 	public Stage getStage() {
 		return Stage.get(attr_int_idSt);

@@ -75,7 +75,7 @@ public class Ecole {
 		this.attr_int_idDir = attr_int_idDir;
 	}
 
-	// Méthodes
+	// Mï¿½thodes
 
 	public Professeur getDirecteur() {
 		return new JDBC_Professeur().select(attr_int_idDir);
@@ -89,7 +89,7 @@ public class Ecole {
 		ArrayList<Convention> arrayList = new ArrayList<Convention>();
 
 		ArrayList<Etudiant> etudiants = getEtudiants();
-
+		
 		for (int i = 0, length = etudiants.size(); i < length; i++) {
 			arrayList.addAll(etudiants.get(i).getConventions());
 		}
