@@ -19,7 +19,7 @@ public class Entreprise extends Utilisateur {
 		setAttr_str_adresse(adresse);
 	}
 	
-	static Entreprise get(int idEnt) {
+	public static Entreprise get(int idEnt) {
 		return jdbc_entreprise.select(idEnt);
 	}
 	

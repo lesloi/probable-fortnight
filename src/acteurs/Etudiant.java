@@ -16,7 +16,7 @@ public class Etudiant extends Utilisateur {
 		setAttr_int_idEc(idEc);
 	}
 	
-	static Etudiant get(int idEtu) {
+	public static Etudiant get(int idEtu) {
 		return jdbc_etudiant.select(idEtu);
 	}
 

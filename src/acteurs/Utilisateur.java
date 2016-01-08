@@ -41,7 +41,7 @@ public class Utilisateur {
 		setAttr_int_type(type);
 	}
 	
-	static Utilisateur get(int idUt) {
+	public static Utilisateur get(int idUt) {
 		return jdbc_utilisateur.select(idUt);
 	}
 

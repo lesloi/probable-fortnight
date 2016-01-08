@@ -14,7 +14,7 @@ public class Stage {
 	private int attr_int_idEnt;
 
 	// JDBC
-	private JDBC_Stage jdbc_stage = new JDBC_Stage();
+	static private JDBC_Stage jdbc_stage = new JDBC_Stage();
 
 	// Construct
 
@@ -23,6 +23,10 @@ public class Stage {
 		setAttr_str_intitule(attr_str_intitule);
 		setAttr_str_description(attr_str_description);
 		setAttr_int_idEnt(attr_int_idEnt);
+	}
+	
+	static Stage get(int idSt) {
+		return jdbc_stage.select(idSt);
 	}
 
 	// Get & Set

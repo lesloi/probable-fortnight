@@ -26,7 +26,7 @@ public class Ecole {
 		this.setAttr_int_idDir(idDir);
 	}
 	
-	static Ecole get(int idEc) {
+	public static Ecole get(int idEc) {
 		return jdbc_ecole.select(idEc);
 	}
 		

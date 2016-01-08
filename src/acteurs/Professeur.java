@@ -16,7 +16,7 @@ public class Professeur extends Utilisateur {
 		setAttr_int_isCom(isCom);
 	}
 	
-	static Professeur get(int idProf) {
+	public static Professeur get(int idProf) {
 		return jdbc_professeur.select(idProf);
 	}
 	
