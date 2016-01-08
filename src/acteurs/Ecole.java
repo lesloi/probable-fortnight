@@ -29,7 +29,7 @@ public class Ecole {
 	public static Ecole get(int idEc) {
 		return jdbc_ecole.select(idEc);
 	}
-		
+	
 	// Get & Set
 	
 	public int getAttr_int_idEc() {
