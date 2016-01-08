@@ -66,11 +66,10 @@ public class JDBC_Etudiant extends Abstract_JDBC {
 		try {
 			PreparedStatement pstmt = getConnection().prepareStatement(SQL_INSERT);
 
-			pstmt.setString(1, etu.getAttr_str_login());
-			pstmt.setString(2, etu.getAttr_str_mail());
-			pstmt.setString(3, etu.getAttr_str_prenom());
-			pstmt.setString(4, etu.getAttr_str_nom());
-			pstmt.setInt(5, etu.getAttr_int_type());
+			pstmt.setInt(1, etu.getAttr_int_idUt());
+			pstmt.setInt(2, etu.getAttr_int_numEtudiant());
+			pstmt.setString(3, etu.getAttr_str_formation());
+			pstmt.setInt(4, etu.getAttr_int_idEc());
 
 			pstmt.executeUpdate();
 
@@ -85,12 +84,11 @@ public class JDBC_Etudiant extends Abstract_JDBC {
 			String sql = SQL_UPDATE + " WHERE idEtu = ?";
 			PreparedStatement pstmt = getConnection().prepareStatement(sql);
 
-			pstmt.setString(1, etu.getAttr_str_login());
-			pstmt.setString(2, etu.getAttr_str_mail());
-			pstmt.setString(3, etu.getAttr_str_prenom());
-			pstmt.setString(4, etu.getAttr_str_nom());
-			pstmt.setInt(5, etu.getAttr_int_type());
-			pstmt.setInt(6, etu.getAttr_int_idUt());
+			pstmt.setInt(1, etu.getAttr_int_idUt());
+			pstmt.setInt(2, etu.getAttr_int_numEtudiant());
+			pstmt.setString(3, etu.getAttr_str_formation());
+			pstmt.setInt(4, etu.getAttr_int_idEc());
+			pstmt.setInt(5, etu.getAttr_int_idUt());
 
 			pstmt.executeUpdate();
 
