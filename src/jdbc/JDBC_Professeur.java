@@ -22,7 +22,7 @@ public class JDBC_Professeur extends Abstract_JDBC {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
 				Professeur prof = new Professeur(ut, rs.getString("matiere"), rs.getInt("idEc"), rs.getInt("isCom"));
 				prof.setAttr_int_idUt(ut.getAttr_int_idUt());

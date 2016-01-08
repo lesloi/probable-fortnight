@@ -19,7 +19,7 @@ public class JDBC_Utilisateur extends Abstract_JDBC {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Utilisateur ut = new Utilisateur(rs.getString("login"), rs.getString("mail"), rs.getString("prenom"), rs.getString("nom"), rs.getInt("type"));
 				ut.setAttr_int_idUt(rs.getInt("idUt"));
 				

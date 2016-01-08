@@ -19,7 +19,7 @@ public class JDBC_Ecole extends Abstract_JDBC {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Ecole ecole = new Ecole(rs.getString("nom"), rs.getString("adresse"), rs.getString("mail"), rs.getInt("idDir"));
 				ecole.setAttr_int_idEc(rs.getInt("idEc"));
 				

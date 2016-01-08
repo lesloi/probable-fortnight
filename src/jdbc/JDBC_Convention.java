@@ -19,7 +19,7 @@ public class JDBC_Convention extends Abstract_JDBC {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Convention convention = new Convention(rs.getInt("idSt"), rs.getInt("idEtu"), rs.getBoolean("approbationDirecteur"), rs.getBoolean("approbationEntreprise"), rs.getBoolean("approbationEtudiant"));
 				convention.setAttr_int_idSt(rs.getInt("idConv"));
 				

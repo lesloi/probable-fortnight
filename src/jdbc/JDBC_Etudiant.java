@@ -22,7 +22,7 @@ public class JDBC_Etudiant extends Abstract_JDBC {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
 				Etudiant etu = new Etudiant(ut, rs.getInt("numEtudiant"), rs.getString("formation"), rs.getInt("idEc"));
 				etu.setAttr_int_idUt(ut.getAttr_int_idUt());
@@ -62,6 +62,33 @@ public class JDBC_Etudiant extends Abstract_JDBC {
 		}
 
 		return etu;
+	}
+	
+	public ArrayList<Etudiant> selectByIdEc(int idEc) {
+		ArrayList<Etudiant> arrayList = new ArrayList<Etudiant>();
+		try {
+			String sql = SQL_SELECT + " WHERE idEc = ?";
+			PreparedStatement pstmt = getConnection().prepareStatement(sql);
+			
+			pstmt.setInt(1, idEc);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
+				Etudiant etu = new Etudiant(ut, rs.getInt("numEtudiant"), rs.getString("formation"), rs.getInt("idEc"));
+				etu.setAttr_int_idUt(ut.getAttr_int_idUt());
+				
+				arrayList.add(etu);
+			}
+
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			System.err.println("SQL error : " + e.getMessage());
+		}
+
+		return arrayList;
 	}
 
 	public void insert(Etudiant etu) {
