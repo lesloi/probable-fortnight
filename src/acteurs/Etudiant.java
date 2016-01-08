@@ -3,7 +3,10 @@ package acteurs;
 import java.util.ArrayList;
 
 import forms.Convention;
+import forms.Stage;
+import forms.Stage_Favoris;
 import jdbc.JDBC_Convention;
+import jdbc.JDBC_Stage_Favoris;
 
 public class Etudiant extends Utilisateur {
 
@@ -20,7 +23,7 @@ public class Etudiant extends Utilisateur {
 		setAttr_str_formation(formation);
 		setAttr_int_idEc(idEc);
 	}
-	
+
 	public static Etudiant get(int idEtu) {
 		return jdbc_etudiant.select(idEtu);
 	}
@@ -50,13 +53,24 @@ public class Etudiant extends Utilisateur {
 	public void setAttr_int_idEc(int attr_int_idEc) {
 		this.attr_int_idEc = attr_int_idEc;
 	}
-	
+
 	// Méthodes
 
 	public Ecole getEcole() {
 		return jdbc_ecole.select(attr_int_idEc);
 	}
-	
+
+	public ArrayList<Stage> getStage_Favoris() {
+		ArrayList<Stage> arrayList = new ArrayList<Stage>();
+
+		ArrayList<Stage_Favoris> stages_favoris = new JDBC_Stage_Favoris().selectByIdEtu(getAttr_int_idUt());
+		for (int i = 0, length = stages_favoris.size(); i < length; i++) {
+			arrayList.add(stages_favoris.get(i).getStage());
+		}
+
+		return arrayList;
+	}
+
 	public ArrayList<Convention> getConventions() {
 		return new JDBC_Convention().selectByIdEtu(getAttr_int_idUt());
 	}

@@ -6,6 +6,7 @@ import acteurs.Entreprise;
 import jdbc.JDBC_Convention;
 import jdbc.JDBC_Entreprise;
 import jdbc.JDBC_Stage;
+import jdbc.JDBC_Stage_Favoris;
 
 public class Stage {
 
