@@ -84,6 +84,32 @@ public class JDBC_Convention extends Abstract_JDBC {
 
 		return arrayList;
 	}
+	
+	public ArrayList<Convention> selectByIdSt(int idSt) {
+		ArrayList<Convention> arrayList = new ArrayList<Convention>();
+		try {
+			String sql = SQL_SELECT + " WHERE idSt = ?";
+			PreparedStatement pstmt = getConnection().prepareStatement(sql);
+			
+			pstmt.setInt(1, idSt);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				Convention convention = new Convention(rs.getInt("idSt"), rs.getInt("idEtu"), rs.getBoolean("approbationDirecteur"), rs.getBoolean("approbationEntreprise"), rs.getBoolean("approbationEtudiant"));
+				convention.setAttr_int_idSt(rs.getInt("idConv"));
+				
+				arrayList.add(convention);
+			}
+
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			System.err.println("SQL error : " + e.getMessage());
+		}
+
+		return arrayList;
+	}
 
 	public int insert(Convention convention) {
 		int new_id = -1;

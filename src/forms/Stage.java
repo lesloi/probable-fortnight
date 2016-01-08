@@ -1,6 +1,9 @@
 package forms;
 
+import java.util.ArrayList;
+
 import acteurs.Entreprise;
+import jdbc.JDBC_Convention;
 import jdbc.JDBC_Entreprise;
 import jdbc.JDBC_Stage;
 
@@ -67,6 +70,10 @@ public class Stage {
 
 	public Entreprise getEntreprise() {
 		return new JDBC_Entreprise().select(attr_int_idEnt);
+	}
+	
+	public ArrayList<Convention> getConventions() {
+		return new JDBC_Convention().selectByIdSt(attr_int_idSt);
 	}
 	
 	// JDBC

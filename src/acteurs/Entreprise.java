@@ -2,6 +2,7 @@ package acteurs;
 
 import java.util.ArrayList;
 
+import forms.Convention;
 import forms.Stage;
 import jdbc.JDBC_Stage;
 
@@ -10,7 +11,7 @@ public class Entreprise extends Utilisateur {
 	/* ATTRIBUTS */
 	private int attr_int_numSiret;
 	private String attr_str_adresse;
-	
+
 	// Construct
 
 	public Entreprise(Utilisateur ut, int numSiret, String adresse) {
@@ -18,11 +19,11 @@ public class Entreprise extends Utilisateur {
 		setAttr_int_numSiret(numSiret);
 		setAttr_str_adresse(adresse);
 	}
-	
+
 	public static Entreprise get(int idEnt) {
 		return jdbc_entreprise.select(idEnt);
 	}
-	
+
 	// Get & Set
 
 	public int getAttr_int_numSiret() {
@@ -46,20 +47,32 @@ public class Entreprise extends Utilisateur {
 	public ArrayList<Stage> getStages() {
 		return new JDBC_Stage().selectByIdEnt(getAttr_int_idUt());
 	}
-	
+
+	public ArrayList<Convention> getConventions() {
+		ArrayList<Convention> arrayList = new ArrayList<Convention>();
+
+		ArrayList<Stage> stages = getStages();
+
+		for (int i = 0, length = stages.size(); i < length; i++) {
+			arrayList.addAll(stages.get(i).getConventions());
+		}
+
+		return arrayList;
+	}
+
 	// JDBC
-	
+
 	public void create() {
 		super.create();
 		jdbc_entreprise.insert(this);
 	}
-	
+
 	public void edit() {
 		super.edit();
 		jdbc_entreprise.update(this);
 	}
-	
-	public void remove () {
+
+	public void remove() {
 		super.remove();
 		jdbc_entreprise.delete(this);
 	}
