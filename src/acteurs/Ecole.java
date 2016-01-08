@@ -81,14 +81,10 @@ public class Ecole {
 		this.attr_int_idDir = attr_int_idDir;
 	}
 
+	// Méthodes
 
 	public Professeur getDirecteur() {
 		return new JDBC_Professeur().select(attr_int_idDir);
-	}
-	
-	public void setDirecteur(Professeur prof) {
-		setAttr_int_idDir(prof.getAttr_int_idUt());
-		edit();
 	}
 
 	// JDBC
