@@ -1,7 +1,5 @@
 package forms;
 
-import java.util.Date;
-
 import acteurs.Entreprise;
 import jdbc.JDBC_Entreprise;
 import jdbc.JDBC_Stage;
