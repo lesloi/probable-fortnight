@@ -25,6 +25,7 @@ public class JDBC_Etudiant extends Abstract_JDBC {
 			if (rs.next()) {
 				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
 				Etudiant etu = new Etudiant(ut, rs.getInt("numEtudiant"), rs.getString("formation"), rs.getInt("idEc"));
+				etu.setAttr_int_idUt(ut.getAttr_int_idUt());
 				
 				arrayList.add(etu);
 			}
@@ -51,6 +52,7 @@ public class JDBC_Etudiant extends Abstract_JDBC {
 			if (rs.next()) {
 				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEtu"));
 				etu = new Etudiant(ut, rs.getInt("numEtudiant"), rs.getString("formation"), rs.getInt("idEc"));
+				etu.setAttr_int_idUt(ut.getAttr_int_idUt());
 			}
 
 			rs.close();

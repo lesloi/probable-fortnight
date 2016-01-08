@@ -1,6 +1,11 @@
 package acteurs;
 
+import java.util.ArrayList;
+
+import forms.Convention;
+import forms.Stage;
 import jdbc.JDBC_Ecole;
+import jdbc.JDBC_Etudiant;
 import jdbc.JDBC_Professeur;
 
 public class Ecole {
@@ -85,6 +90,22 @@ public class Ecole {
 
 	public Professeur getDirecteur() {
 		return new JDBC_Professeur().select(attr_int_idDir);
+	}
+	
+	public ArrayList<Etudiant> getEtudiants() {
+		return new JDBC_Etudiant().selectByIdEc(attr_int_idEc);
+	}
+	
+	public ArrayList<Convention> getConventions() {
+		ArrayList<Convention> arrayList = new ArrayList<Convention>();
+
+		ArrayList<Etudiant> etudiants = getStages();
+
+		for (int i = 0, length = etudiants.size(); i < length; i++) {
+			arrayList.addAll(etudiants.get(i).getConventions());
+		}
+
+		return arrayList;
 	}
 
 	// JDBC

@@ -24,6 +24,7 @@ public class JDBC_Entreprise extends Abstract_JDBC {
 			while (rs.next()) {
 				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEnt"));
 				Entreprise ent = new Entreprise(ut, rs.getInt("numSiret"), rs.getString("adresse"));
+				ent.setAttr_int_idUt(ut.getAttr_int_idUt());
 
 				arrayList.add(ent);
 			}
@@ -50,6 +51,7 @@ public class JDBC_Entreprise extends Abstract_JDBC {
 			if (rs.next()) {
 				Utilisateur ut = jdbc_utilisateur.select(rs.getInt("idEnt"));
 				ent = new Entreprise(ut, rs.getInt("numSiret"), rs.getString("adresse"));
+				ent.setAttr_int_idUt(ut.getAttr_int_idUt());
 			}
 
 			rs.close();

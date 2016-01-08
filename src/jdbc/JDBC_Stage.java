@@ -69,7 +69,7 @@ public class JDBC_Stage extends Abstract_JDBC {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Stage stage = new Stage(rs.getString("intitule"), rs.getString("description"), rs.getInt("idEnt"));
 				stage.setAttr_int_idSt(rs.getInt("idSt"));
 				
