@@ -1,9 +1,6 @@
 package jdbc;
 
 import java.sql.*;
-import java.util.ArrayList;
-
-import acteurs.Utilisateur;
 
 abstract class Abstract_JDBC {
 
