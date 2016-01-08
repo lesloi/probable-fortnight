@@ -59,7 +59,7 @@ public class JDBC_Convention extends Abstract_JDBC {
 		return convention;
 	}
 	
-	public ArrayList<Convention> selectByIdSt(int idEtu) {
+	public ArrayList<Convention> selectByIdEtu(int idEtu) {
 		ArrayList<Convention> arrayList = new ArrayList<Convention>();
 		try {
 			String sql = SQL_SELECT + " WHERE idEtu = ?";

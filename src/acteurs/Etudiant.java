@@ -1,5 +1,10 @@
 package acteurs;
 
+import java.util.ArrayList;
+
+import forms.Convention;
+import jdbc.JDBC_Convention;
+
 public class Etudiant extends Utilisateur {
 
 	/* ATTRIBUTS */
@@ -50,6 +55,10 @@ public class Etudiant extends Utilisateur {
 
 	public Ecole getEcole() {
 		return jdbc_ecole.select(attr_int_idEc);
+	}
+	
+	public ArrayList<Convention> getConventions() {
+		return new JDBC_Convention().selectByIdEtu(getAttr_int_idUt());
 	}
 
 	// JDBC
